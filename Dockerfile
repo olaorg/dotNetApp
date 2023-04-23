@@ -1,0 +1,20 @@
+# Build stage
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+WORKDIR /app
+
+# Copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copy everything else and build the app
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1 AS runtime
+WORKDIR /app
+COPY --from=build /app/out ./
+
+# Set the entrypoint
+ENTRYPOINT ["dotnet", "MyApp.dll"]
+
