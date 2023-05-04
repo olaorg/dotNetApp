@@ -1,8 +1,8 @@
 name: Docker CI
 
 on:
-  schedule:
-    - cron: '42 22 * * *'
+#   schedule:
+#     - cron: '42 22 * * *'
   push:
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
